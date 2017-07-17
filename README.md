@@ -1,6 +1,6 @@
-# summer-student
+# DD4HEP
 
-This is a repository of Gabriel Penn's summer 2016 work on adapting existing work on SiD for use with the DD4hep toolkit. Please feel free to direct any queries to gp13181@bristol.ac.uk.
+This is a repository for work on SiD for use with the DD4hep toolkit, started by Gabriel Penn as a summer student in 2016. Please feel free to direct any queries to gp13181@bristol.ac.uk.
 
 # Directories:
  - init: initialisation scripts for environment setup
