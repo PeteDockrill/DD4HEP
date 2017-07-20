@@ -1,6 +1,6 @@
 # DD4HEP
 
-Aa repository for work on SiD for use with the DD4hep toolkit, started by Gabriel Penn as a summer student in 2016. Please feel free to direct any queries to gp13181@bristol.ac.uk.
+A repository for work on SiD for use with the DD4hep toolkit, started by Gabriel Penn as a summer student in 2016. Please feel free to direct any queries to gp13181@bristol.ac.uk.
 
 # Directories:
  - init: initialisation scripts for environment setup
