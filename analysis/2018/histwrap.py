@@ -66,6 +66,10 @@ def plot_1d_single_histogram(array, label='', title='', nbins=10,
 		Minimum value on x-axis (minimum value in array if None)
 	rangemax : float
 		Maximum value on x-axis (maximum value in array if None)
+	
+	Methods Used
+	------------
+	_create_1d_histogram
 	"""
 	histogram = _create_1d_histogram(array, label, title, nbins, rangemin,
 									rangemax)
@@ -102,6 +106,10 @@ def plot_1d_double_histogram(array1, array2, label1='', label2='', title='',
 		Minimum value on x-axis (minimum value in array1 and array2 if None)
 	rangemax : float
 		Maximum value on x-axis (maximum value in array1 and array2 if None)
+	
+	Methods Used
+	------------
+	_create_1d_histogram
 	"""
 	#TODO: Add separation of statistics box
 	if rangemin is None:
@@ -164,6 +172,10 @@ def plot_1d_double_histogram_efficiency(arrayref, arraytrk, labelref='',
 		Minimum value on x-axis (minimum value in arrayref and arraytrk if None)
 	rangemax : float
 		Maximum value on x-axis (maximum value in arrayref and arraytrk if None)
+	
+	Methods Used
+	------------
+	_create_1d_histogram
 	"""
 	rangeminref = arrayref.min() if rangemin is None else rangemin
 	rangemintrk = arraytrk.min() if rangemin is None else rangemin
@@ -173,19 +185,30 @@ def plot_1d_double_histogram_efficiency(arrayref, arraytrk, labelref='',
 	rangemax = max(rangemaxref, rangemaxtrk)
 	
 	#Histograms have to have same range and no of bins
+	#Plots have to drawn on separate canvases and drawn before another          
+	#canvas is created
+	c1 = ROOT.TCanvas('c1', 'MCParticleCanvas', 1)
 	histogram_ref = _create_1d_histogram(arrayref, labelref, title, nbins,
 											rangemin, rangemax) 
-	histogram_track = _create_1d_histogram(arraytrk, labeltrk, title, nbins,
-											rangemin, rangemax)
-	#Gives efficiency
-	histogram_track.Divide(histogram_ref)
-
-	#histogram name, no of entries, mean, rms, no of underflow, no of upperflow,    
+	#histogram name, no of entries, mean, rms, no of underflow, no of upperflow, 
 	#skewness                                                                   
 	ROOT.gStyle.SetOptStat('nemruos')
+	histogram_ref.Draw()
 	
-	#histogram_efficiency.Draw()
+	c2 = ROOT.TCanvas('c2', 'TrackCanvas', 1)
+	histogram_track = _create_1d_histogram(arraytrk, labeltrk, title, nbins,
+											rangemin, rangemax)
+	ROOT.gStyle.SetOptStat('nemruos')
 	histogram_track.Draw()
+	
+	c3 = ROOT.TCanvas('c3', 'EfficiencyCanvas', 1)
+	histogram_efficiency = _create_1d_histogram(arraytrk, 'Efficiency', title+' Efficiency', nbins,    
+											rangemin, rangemax)
+	#Gives efficiency
+	histogram_efficiency.Divide(histogram_ref)
+	ROOT.gStyle.SetOptStat('nemruos')
+	histogram_efficiency.Draw()
+	
 	#raw_input line needed or else ROOT will automatically close graph)
 	raw_input()
 
@@ -271,6 +294,10 @@ def plot_2d_single_histogram(arrayx, arrayy, label='', title='',
 		Minimum value on y-axis (minimum value in arrayy if None)
 	rangeymax : float
 		Maximum value on y-axis (maximum value in arrayy if None)
+	
+	Methods Used
+	------------
+	_create_2d_histogram
 	"""
 	#TODO: Add separation of statistics box
 	histogram = _create_2d_histogram(arrayx, arrayy, label, title, nbinsx,
@@ -319,7 +346,12 @@ def plot_2d_single_histogram_efficiency(tupleref, tupletrk, title='', nbinsx=10,
 		Minimum value on y-axis (minimum value in arrayy if None)
 	rangeymax : float
 		Maximum value on y-axis (maximum value in arrayy if None)
+
+	Methods Used
+	------------
+	_create_2d_histogram
 	""" 
+	#TODO: Currently plots very slow, find faster way
 	(arrayxref, arrayyref, labelref) = tupleref
 	(arrayxtrk, arrayytrk, labeltrk) = tupletrk
 
@@ -331,25 +363,46 @@ def plot_2d_single_histogram_efficiency(tupleref, tupletrk, title='', nbinsx=10,
 	rangexmax = max(rangexmaxref, rangexmaxtrk)
 	rangeyminref = arrayyref.min() if rangeymin is None else rangeymin 
 	rangeymintrk = arrayytrk.min() if rangeymin is None else rangeymin
-	rangeymin = max(rangeyminref, rangeymintrk)
+	rangeymin = min(rangeyminref, rangeymintrk)
 	rangeymaxref = arrayyref.max() if rangeymax is None else rangeymax 
 	rangeymaxtrk = arrayytrk.max() if rangeymax is None else rangeymax
 	rangeymax = max(rangeymaxref, rangeymaxtrk)
 	
+	#Plots have to drawn on separate canvases and drawn before another
+	#canvas is created
+	c1 = ROOT.TCanvas('c1', 'MCParticleCanvas', 1)
 	histogram_ref = _create_2d_histogram(*tupleref, title=title, nbinsx=nbinsx,
 										nbinsy=nbinsy,
 										rangexmin=rangexmin, rangexmax=rangexmax,
 										rangeymin=rangeymin, rangeymax=rangeymax) 
+	
+	#histogram name, no of entries, mean, rms, no of underflow, no of upperflow,    
+	#skewness
+	ROOT.gStyle.SetOptStat('nemruos')
+	histogram_ref.Draw('COLZ')
+		
+	c2 = ROOT.TCanvas('c2', 'TrackCanvas', 1)
 	histogram_track = _create_2d_histogram(*tupletrk, title=title,
 											nbinsx=nbinsx, nbinsy=nbinsy,
 											rangexmin=rangexmin,
 											rangexmax=rangexmax,
 											rangeymin=rangeymin,
 											rangeymax=rangeymax)
-	#Gives efficiency
-	histogram_track.Divide(histogram_ref)
-	
-	#Shows legend for colour
+	ROOT.gStyle.SetOptStat('nemruos')
 	histogram_track.Draw('COLZ')
+	
+	c3 = ROOT.TCanvas('c3', 'EfficiencyCanvas', 1)
+	histogram_efficiency = _create_2d_histogram(arrayxtrk, arrayytrk, 'Efficiency',
+											title=title+' Efficiency',
+											nbinsx=nbinsx, nbinsy=nbinsy,
+											rangexmin=rangexmin,
+											rangexmax=rangexmax,
+											rangeymin=rangeymin,
+											rangeymax=rangeymax)
+	#Gives efficiency
+	histogram_efficiency.Divide(histogram_ref)
+	ROOT.gStyle.SetOptStat('nemruos')
+	histogram_efficiency.Draw('COLZ')
+	
 	#raw_input line needed or else ROOT will automatically close graph)
 	raw_input()	

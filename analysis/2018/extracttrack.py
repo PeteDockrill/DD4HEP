@@ -33,7 +33,6 @@ def extract_track_properties(track):
 	trackphi = track.getPhi()
 	#theta also related to tan(lambda)
 	tracktheta = math.pi/2.-math.atan(track.getTanLambda())                     
-	
 	return (trackmom, trackphi, tracktheta)
 
 
@@ -82,7 +81,12 @@ def extract_mcparticle_and_track_to_dataframe(filename, flat=True):
 	flat : bool
 		True returns a flat pandas DataFrame, False returns a DataFrame
 		containing Series with lists (much slower)
-	
+
+	Methods Used
+	------------
+	extract_mcparticle_properties
+	extract_track_properties
+			
 	Returns
 	------
 	mcparticle_df : pandas DataFrame
@@ -96,6 +100,7 @@ def extract_mcparticle_and_track_to_dataframe(filename, flat=True):
 		theta of Conformal Tracks (weight is currently not implemented in
 		Marlin)		
 	"""
+	#TODO: Parallelize data extraction (not sure if possible)
 	#Interface for reading *.slcio files
 	reader = pyLCIO.IOIMPL.LCFactory.getInstance().createLCReader()
 	reader.open(filename)
@@ -260,6 +265,15 @@ def extract_mcparticle_and_track_to_dataframe(filename, flat=True):
 			
 			#Finds all catracks, currently no relation present
 			for catrack in catracks_iter:
+				"""a = [hit for hit in catrack.getTrackerHits()][1]
+				print a
+				print type(a)
+				print dir(a)
+				b = a.getQuality()
+				print b
+				print type(b)
+				print dir(b)
+				exit()"""
 				#TODO: Add weight calculation
 				catrackmom, catrackphi, catracktheta = extract_track_properties(catrack)
 				
