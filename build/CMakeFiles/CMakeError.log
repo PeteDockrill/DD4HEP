@@ -1,0 +1,51 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /scratch/rg18646/DD4HEP/lcgeo/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_4ce03/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_4ce03.dir/build.make CMakeFiles/cmTC_4ce03.dir/build
+gmake[1]: Entering directory `/scratch/rg18646/DD4HEP/lcgeo/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4ce03.dir/CheckSymbolExists.c.o
+/cvmfs/sft.cern.ch/lcg/contrib/gcc/4.9.3/x86_64-slc6/bin/gcc     -o CMakeFiles/cmTC_4ce03.dir/CheckSymbolExists.c.o   -c /scratch/rg18646/DD4HEP/lcgeo/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_4ce03
+/cvmfs/ilc.desy.de/sw/x86_64_gcc49_sl6/CMake/3.6.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4ce03.dir/link.txt --verbose=1
+/cvmfs/sft.cern.ch/lcg/contrib/gcc/4.9.3/x86_64-slc6/bin/gcc       CMakeFiles/cmTC_4ce03.dir/CheckSymbolExists.c.o  -o cmTC_4ce03 -rdynamic 
+CMakeFiles/cmTC_4ce03.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x16): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+gmake[1]: *** [cmTC_4ce03] Error 1
+gmake[1]: Leaving directory `/scratch/rg18646/DD4HEP/lcgeo/build/CMakeFiles/CMakeTmp'
+gmake: *** [cmTC_4ce03/fast] Error 2
+
+File /scratch/rg18646/DD4HEP/lcgeo/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /scratch/rg18646/DD4HEP/lcgeo/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_c248c/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_c248c.dir/build.make CMakeFiles/cmTC_c248c.dir/build
+gmake[1]: Entering directory `/scratch/rg18646/DD4HEP/lcgeo/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c248c.dir/CheckFunctionExists.c.o
+/cvmfs/sft.cern.ch/lcg/contrib/gcc/4.9.3/x86_64-slc6/bin/gcc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_c248c.dir/CheckFunctionExists.c.o   -c /cvmfs/ilc.desy.de/sw/x86_64_gcc49_sl6/CMake/3.6.3/share/cmake-3.6/Modules/CheckFunctionExists.c
+Linking C executable cmTC_c248c
+/cvmfs/ilc.desy.de/sw/x86_64_gcc49_sl6/CMake/3.6.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c248c.dir/link.txt --verbose=1
+/cvmfs/sft.cern.ch/lcg/contrib/gcc/4.9.3/x86_64-slc6/bin/gcc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_c248c.dir/CheckFunctionExists.c.o  -o cmTC_c248c -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+gmake[1]: *** [cmTC_c248c] Error 1
+gmake[1]: Leaving directory `/scratch/rg18646/DD4HEP/lcgeo/build/CMakeFiles/CMakeTmp'
+gmake: *** [cmTC_c248c/fast] Error 2
+
+
