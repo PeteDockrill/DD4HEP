@@ -1,0 +1,8 @@
+/scratch/rg18646/DD4HEP/lcgeo/lib/liblcgeo.components
+/scratch/rg18646/DD4HEP/lcgeo/lib/liblcgeo.so
+/scratch/rg18646/DD4HEP/lcgeo/lib/liblcgeoG4.components
+/scratch/rg18646/DD4HEP/lcgeo/lib/liblcgeoG4.so
+/scratch/rg18646/DD4HEP/lcgeo/bin/thislcgeo.sh
+/scratch/rg18646/DD4HEP/lcgeo/bin/run_test_lcgeo.sh
+/scratch/rg18646/DD4HEP/lcgeo/bin/TestSensThickness
+/scratch/rg18646/DD4HEP/lcgeo/bin/BeamCalZtest
